@@ -2,11 +2,9 @@
 #![deny(missing_docs)]
 #![deny(warnings)]
 
-//! Solve a Squaredle puzzle using rustdle
-//!
+//! Solve a Squaredle puzzle using rust
 
-pub mod trie;
-
+use rustdle::trie;
 use std::fs;
 
 fn main() {

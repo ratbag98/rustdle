@@ -1,7 +1,6 @@
 #![deny(missing_docs)]
 #![deny(warnings)]
 
-//! A trie structure
 use std::collections::HashMap;
 
 #[derive(Debug)]
