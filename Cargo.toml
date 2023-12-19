@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 basic_trie = "1.2.3"
+json = "0.12.4"
+clap = { version = "4.4.11", features = ["derive"] }
