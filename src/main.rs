@@ -25,8 +25,8 @@ impl fmt::Display for PuzzleType {
         // operation succeeded or failed. Note that `write!` uses syntax which
         // is very similar to `println!`.
         match self {
-            PuzzleType::StandardPuzzle => write!(f, "{}", "standard"),
-            PuzzleType::ExpressPuzzle => write!(f, "{}", "express"),
+            PuzzleType::StandardPuzzle => write!(f, "{}", "standard-puzzle"),
+            PuzzleType::ExpressPuzzle => write!(f, "{}", "express-puzzle"),
         }
     }
 }
@@ -35,27 +35,55 @@ impl fmt::Display for PuzzleType {
 #[group(required = true, multiple = false)]
 struct LetterSelection {
     /// User-specified grid of letters
-    #[arg(short, long, conflicts_with = "download")]
+    #[arg(long)]
     letters: Option<String>,
 
+    /// Create a random square grid of x by x letters
+    #[arg(short = 'x', long)]
+    square: Option<u8>,
+
     /// download puzzle, either standard or express
-    #[arg(short, long, conflicts_with = "letters",default_value_t = PuzzleType::StandardPuzzle)]
+    #[arg(short, long, default_value_t = PuzzleType::StandardPuzzle)]
     download: PuzzleType,
 }
 
 #[derive(Parser, Debug)]
 #[command(author = "Rob Rainthorpe", version, about = "Solve Squaredles with the power of Rust!", long_about = None)]
-struct SquaredleArgs {
+struct RustdleArgs {
     #[command(flatten)]
     letter_selection: LetterSelection,
 
-    /// Create a random square grid of x by x letters
-    #[arg(short = 'x', long)]
-    square: Option<u8>,
+    /// display results as a single column
+    #[arg(short = 'c', long, default_value_t = false)]
+    single_column: bool,
+
+    /// display letters grid
+    #[arg(short, long, default_value_t = false)]
+    grid: bool,
+
+    /// group solutions by length
+    #[arg(short, long, default_value_t = false)]
+    length: bool,
+
+    /// display headers for length-grouped solution lists
+    #[arg(short = 'H', long, default_value_t = false)]
+    headers: bool,
+
+    /// show all solutions for a word in GUI
+    #[arg(short, long, default_value_t = false)]
+    multiple: bool,
+
+    /// randomise letter order, maybe useful for setting puzzles
+    #[arg(short, long, default_value_t = false)]
+    random: bool,
+
+    /// sort solutions alphabetically
+    #[arg(short, long, default_value_t = true)]
+    sort: bool,
 }
 
 fn main() {
-    let args = SquaredleArgs::parse();
+    let args = RustdleArgs::parse();
     println!("Arguments: {:?}", args);
 
     let valid_words = fs::read_to_string("./word_list.txt").expect("problem reading word list");
