@@ -1,8 +1,3 @@
-// #![deny(elided_lifetimes_in_paths)]
-#![deny(missing_docs)]
-#![deny(missing_debug_implementations)]
-#![deny(warnings)]
-
 //! Solve a Squaredle puzzle using rust
 
 use clap::Parser;
@@ -39,8 +34,8 @@ fn main() {
     let found_words = trie.find_words(search).unwrap();
     let found_missing_word = trie.contains("NONENSENOTAWORD");
 
-    assert!(found_words.len() > 0);
-    assert!(found_missing_word == false);
+    assert!(!found_words.is_empty());
+    assert!(!found_missing_word);
 
     println!(
         "{} valid word(s) starting {search}: {:?}",

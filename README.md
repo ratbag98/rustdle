@@ -7,7 +7,7 @@ After learning Python earlier this year with the PySquaredle program, I've now m
 The solver will provide text and GUI interfaces.
 
 
-CURRENTLY THE PROJECT JUST PARSES COMMAND-LINE ARGUMENT. 
+CURRENTLY THE PROJECT JUST PARSES COMMAND-LINE ARGUMENTS AND LOADS A DICTIONARY. 
 
 ## Table of Contents (Optional)
 

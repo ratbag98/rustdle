@@ -2,10 +2,19 @@
 name = "rustdle"
 version = "0.1.0"
 edition = "2021"
-author = "Rob Rainthorpe"
+authors = ["Rob Rainthorpe"]
+description = "Solves Squaredle puzzles. See https://squaredle.app"
+license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 basic_trie = "1.2.3"
 json = "0.12.4"
 clap = { version = "4.4.11", features = ["derive"] }
+
+[lints.rust]
+unsafe_code = "deny"
+elided_lifetimes_in_paths = "deny"
+missing_docs = "deny"
+missing_debug_implementations = "deny"
+warnings = "deny"

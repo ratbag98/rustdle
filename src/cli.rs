@@ -2,6 +2,7 @@ use clap::{Args, Parser};
 
 #[derive(Args, Debug)]
 #[group(multiple = false)]
+/// ArgGroup to ensure at least one kind of letter selection is made by the user
 pub struct LetterSelection {
     /// User-specified grid of letters.
     ///
@@ -44,6 +45,7 @@ pub struct LetterSelection {
 /// Rustdle uses the power of Rust to solve Squaredles
 pub struct RustdleArgs {
     #[command(flatten)]
+    /// letter selection group
     pub letter_selection: LetterSelection,
 
     /// display results as a single column
