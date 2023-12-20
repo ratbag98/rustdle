@@ -24,27 +24,27 @@ pub struct RustdleArgs {
     pub letter_selection: LetterSelection,
 
     /// display results as a single column
-    #[arg(short = 'c', long, default_value_t = false)]
+    #[arg(short = 'c', long)]
     single_column: bool,
 
     /// display letters grid
-    #[arg(short, long, default_value_t = false)]
+    #[arg(short, long)]
     grid: bool,
 
     /// group solutions by length
-    #[arg(short, long, default_value_t = false)]
+    #[arg(short, long)]
     length: bool,
 
     /// display headers for length-grouped solution lists
-    #[arg(short = 'H', long, default_value_t = false)]
+    #[arg(short = 'H')]
     headers: bool,
 
     /// show all solutions for a word in GUI
-    #[arg(short, long, default_value_t = false)]
+    #[arg(short, long)]
     multiple: bool,
 
     /// randomise letter order, maybe useful for setting puzzles
-    #[arg(short, long, default_value_t = false)]
+    #[arg(short, long)]
     random: bool,
 
     /// sort solutions alphabetically
@@ -52,15 +52,15 @@ pub struct RustdleArgs {
     sort: bool,
 
     /// run in GUI mode
-    #[arg(short = 'u', long, default_value_t = false)]
+    #[arg(short = 'u')]
     gui: bool,
 
     /// add extra letters to ensure puzzle is square
-    #[arg(short = 't', long = "auto-extend", default_value_t = false)]
+    #[arg(short = 't', long = "auto-extend")]
     auto_extend: bool,
 
     /// debug mode, mainly shows neighbour list
-    #[arg(short, long, default_value_t = false)]
+    #[arg(short, long)]
     debug: bool,
 
     /// specify custom word list
@@ -68,6 +68,6 @@ pub struct RustdleArgs {
     file: Option<String>,
 
     /// show progress of trie walk
-    #[arg(short = 'z', long = "slow-mode", default_value_t = false)]
+    #[arg(short = 'z', long = "slow-mode")]
     slow_mode: bool,
 }
