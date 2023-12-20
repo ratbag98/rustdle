@@ -5,8 +5,8 @@ use clap::{Args, Parser};
 pub struct LetterSelection {
     /// User-specified grid of letters.
     ///
-    /// LETTERS can be 3 or more of A-Z or _ (ie no spaces). A '_' represents a gap in the puzzle.
-    /// Consider this example puzzle:
+    /// LETTERS can be 3 or more of A-Z or _ (ie no spaces). A '_' represents
+    /// a gap in the puzzle. Consider this example puzzle:
     ///
     ///   BC
     ///  DEFG
@@ -17,17 +17,21 @@ pub struct LetterSelection {
     ///
     /// rustdle _BC_DEFGHIJK_LM_
     ///
-    /// Since all grids are square, the number of letters in LETTERS must be a square number (eg
-    /// 3x3 = 9, 4x4 = 16 etc)
+    /// Since all grids are square, the number of letters in LETTERS must
+    /// be a square number (eg3x3 = 9, 4x4 = 16 etc)
     ///
     ///
-    /// If no letters are provided, today's Standard puzzle will be downloaded. Specify --express to download
-    /// today's Express puzzle instead
+    /// If no letters are provided, today's Standard puzzle will be
+    /// downloaded.
+    ///
+    /// Specify --express to download today's Express puzzle instead
     #[arg(value_name = "LETTERS", verbatim_doc_comment)]
     pub letters: Option<String>,
 
-    /// Create a random square grid of x by x letters
-    #[arg(short = 'x', long)]
+    /// Create a random square grid of X by X letters
+    ///
+    /// Letter distribution is inspired by a popular word game whose name rhymes with "scrabble".
+    #[arg(short = 'x', long, value_name = "X")]
     square: Option<u8>,
 
     /// download express rather than standard puzzle
@@ -55,27 +59,27 @@ pub struct RustdleArgs {
     length: bool,
 
     /// display headers for length-grouped solution lists
-    #[arg(short = 'H')]
+    #[arg(short = 'H', long, requires = "length")]
     headers: bool,
 
+    /// run in GUI mode
+    #[arg(short = 'u', long)]
+    gui: bool,
+
     /// show all solutions for a word in GUI
-    #[arg(short, long)]
+    #[arg(short, long, requires = "gui")]
     multiple: bool,
 
     /// randomise letter order, maybe useful for setting puzzles
-    #[arg(short, long)]
+    #[arg(short, long, requires = "letters")]
     random: bool,
 
     /// sort solutions alphabetically
     #[arg(short, long, default_value_t = true)]
     sort: bool,
 
-    /// run in GUI mode
-    #[arg(short = 'u')]
-    gui: bool,
-
-    /// add extra letters to ensure puzzle is square
-    #[arg(short = 't', long = "auto-extend")]
+    /// add extra letters to LETTERS to ensure puzzle is square
+    #[arg(short = 't', long = "auto-extend", requires = "letters")]
     auto_extend: bool,
 
     /// debug mode, mainly shows neighbour list
