@@ -1,24 +1,43 @@
 use clap::{Args, Parser};
 
-use super::PuzzleType;
-
 #[derive(Args, Debug)]
 #[group(multiple = false)]
 pub struct LetterSelection {
-    /// User-specified grid of letters
+    /// User-specified grid of letters.
+    ///
+    /// LETTERS can be 3 or more of A-Z or _ (ie no spaces). A '_' represents a gap in the puzzle.
+    /// Consider this example puzzle:
+    ///
+    ///   BC
+    ///  DEFG
+    ///  HIJK
+    ///   LM
+    ///
+    /// The following command would solve the puzzle:
+    ///
+    /// rustdle _BC_DEFGHIJK_LM_
+    ///
+    /// Since all grids are square, the number of letters in LETTERS must be a square number (eg
+    /// 3x3 = 9, 4x4 = 16 etc)
+    ///
+    ///
+    /// If no letters are provided, today's Standard puzzle will be downloaded. Specify --express to download
+    /// today's Express puzzle instead
+    #[arg(value_name = "LETTERS", verbatim_doc_comment)]
     pub letters: Option<String>,
 
     /// Create a random square grid of x by x letters
     #[arg(short = 'x', long)]
     square: Option<u8>,
 
-    /// download puzzle, either standard or express
-    #[arg(value_enum, short = 'w', long, default_value_t = PuzzleType::Standard)]
-    download: PuzzleType,
+    /// download express rather than standard puzzle
+    #[arg(short, long)]
+    express: bool,
 }
 
 #[derive(Parser, Debug)]
-#[command(author = "Rob Rainthorpe", version, name = "Rustdle", about = "Solve Squaredles with the power of Rust!", long_about = None)]
+#[command(author, version, name = "Rustdle")]
+/// Rustdle uses the power of Rust to solve Squaredles
 pub struct RustdleArgs {
     #[command(flatten)]
     pub letter_selection: LetterSelection,
