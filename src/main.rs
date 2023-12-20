@@ -45,7 +45,7 @@ struct LetterSelection {
     square: Option<u8>,
 
     /// download puzzle, either standard or express
-    #[arg(value_enum, short, long, default_value_t = PuzzleType::Standard)]
+    #[arg(value_enum, short = 'w', long, default_value_t = PuzzleType::Standard)]
     download: PuzzleType,
 }
 
@@ -90,6 +90,18 @@ struct RustdleArgs {
     /// add extra letters to ensure puzzle is square
     #[arg(short = 't', long = "auto-extend", default_value_t = false)]
     auto_extend: bool,
+
+    /// debug mode, mainly shows neighbour list
+    #[arg(short, long, default_value_t = false)]
+    debug: bool,
+
+    /// specify custom word list
+    #[arg(short, long)]
+    file: Option<String>,
+
+    /// show progress of trie walk
+    #[arg(short = 'z', long = "slow-mode", default_value_t = false)]
+    slow_mode: bool,
 }
 
 fn main() {
@@ -108,7 +120,14 @@ fn main() {
         count += 1;
     }
 
-    let search = "ROBE";
+    let letter_selection = &args.letter_selection;
+
+    // TODO this is just a test of the argument parser
+    let search = if let Some(letters) = letter_selection.letters.as_deref() {
+        letters
+    } else {
+        "ROBE"
+    };
 
     let found_words = trie.find_words(search).unwrap();
     let found_missing_word = trie.contains("NONENSENOTAWORD");
