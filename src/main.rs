@@ -2,6 +2,7 @@
 
 use clap::Parser;
 use rustdle::cli::RustdleArgs;
+use rustdle::puzzle::Grid;
 
 use basic_trie::DatalessTrie;
 use std::fs;
@@ -23,6 +24,12 @@ fn main() {
     }
 
     let letter_selection = &args.letter_selection;
+
+    let grid = Grid::new("ABCDEFGHI");
+    println!(
+        "Created a grid with the following letters: {}",
+        grid.letters()
+    );
 
     // TODO this is just a test of the argument parser
     let search = if let Some(letters) = letter_selection.letters.as_deref() {
