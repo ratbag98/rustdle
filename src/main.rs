@@ -23,33 +23,36 @@ fn main() {
         count += 1;
     }
 
-    let letter_selection = &args.letter_selection;
+    let letters = match &args.letter_selection.letters {
+        Some(provided_letters) => provided_letters,
+        _ => "ABCDEFGHI",
+    };
 
-    let grid = Grid::new("ABCDEFGHI");
+    let grid = Grid::new(letters).expect("Invalid letter selection");
     println!(
         "Created a grid with the following letters: {}",
         grid.letters()
     );
 
     // TODO this is just a test of the argument parser
-    let search = if let Some(letters) = letter_selection.letters.as_deref() {
-        letters
-    } else {
-        "ROBE"
-    };
+    // let search = if let Some(letters) = letter_selection.letters.as_deref() {
+    //     letters
+    // } else {
+    //     "ROBE"
+    // };
+    //
+    // let found_words = trie.find_words(search).unwrap();
+    // let found_missing_word = trie.contains("NONENSENOTAWORD");
 
-    let found_words = trie.find_words(search).unwrap();
-    let found_missing_word = trie.contains("NONENSENOTAWORD");
-
-    assert!(!found_words.is_empty());
-    assert!(!found_missing_word);
-
-    println!(
-        "{} valid word(s) starting {search}: {:?}",
-        found_words.len(),
-        found_words
-    );
-
+    // assert!(!found_words.is_empty());
+    // assert!(!found_missing_word);
+    //
+    // println!(
+    //     "{} valid word(s) starting {search}: {:?}",
+    //     found_words.len(),
+    //     found_words
+    // );
+    //
     print!("Wordlist has {} bytes.", valid_words.len());
     print!("Wordlist has {} words.", count);
 }
