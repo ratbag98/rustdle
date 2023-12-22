@@ -24,4 +24,10 @@ mod puzzle_tests {
             )),
         }
     }
+
+    #[test]
+    fn retrieve_unique_letters_from_grid() {
+        let good_grid = Grid::new("VALIDGRID").expect("Invalid letter selection");
+        assert!(good_grid.unique_letters() == "ADGILRV");
+    }
 }
