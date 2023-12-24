@@ -1,4 +1,5 @@
 use clap::{Args, Parser};
+// use regex::Regex;
 
 #[derive(Args, Debug)]
 #[group(multiple = false)]
@@ -27,6 +28,7 @@ pub struct LetterSelection {
     ///
     /// Specify --express to download today's Express puzzle instead
     #[arg(value_name = "LETTERS", verbatim_doc_comment)]
+    //, value_parser = just_squaredle_letters)]
     pub letters: Option<String>,
 
     /// Create a random square grid of X by X letters
@@ -39,6 +41,15 @@ pub struct LetterSelection {
     #[arg(short, long)]
     express: bool,
 }
+// fn just_squaredle_letters(arg: &str) -> Result<&str, String> {
+//     let acceptable = Regex::new(r"^[_A-Z]+$").unwrap();
+//
+//     if acceptable.is_match(arg) {
+//         Ok(arg)
+//     } else {
+//         Err(String::from("invalid characters in letters"))
+//     }
+// }
 
 #[derive(Parser, Debug)]
 #[command(author, version, name = "Rustdle")]

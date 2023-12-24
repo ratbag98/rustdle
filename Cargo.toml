@@ -12,10 +12,11 @@ basic_trie = "1.2.3"
 json = "0.12.4"
 clap = { version = "4.4.11", features = ["derive"] }
 num-integer = "0.1.45"
+regex = "1.10.2"
 
 [lints.rust]
 unsafe_code = "deny"
-elided_lifetimes_in_paths = "deny"
+# elided_lifetimes_in_paths = "deny"
 missing_docs = "deny"
 missing_debug_implementations = "deny"
 warnings = "deny"

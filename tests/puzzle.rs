@@ -30,4 +30,12 @@ mod puzzle_tests {
         let good_grid = Grid::new("VALIDGRID").expect("Invalid letter selection");
         assert!(good_grid.unique_letters() == "ADGILRV");
     }
+
+    #[test]
+    fn only_accept_valid_letters() -> Result<(), String> {
+        match Grid::new("A_3456789") {
+            None => Ok(()),
+            _ => Err(String::from("shouldn't create grid with invalid letters")),
+        }
+    }
 }
