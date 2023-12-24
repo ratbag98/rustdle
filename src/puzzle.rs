@@ -13,6 +13,7 @@ fn square<T: Integer + Roots + Copy>(size: T) -> bool {
 
 /// are provided letters letters or underscores only?
 fn valid_letters(letters: &str) -> bool {
+    // next to impossible for hte new to fail, so I'll unwrap
     let acceptable = Regex::new(r"^[_A-Z]+$").unwrap();
 
     acceptable.is_match(letters)
@@ -36,20 +37,18 @@ impl Grid {
             None
         }
     }
+
     /// retrieve all the letters from the Grid
-    pub fn letters(self) -> String {
-        self.grid_letters.into_iter().collect()
+    pub fn letters(&self) -> String {
+        self.grid_letters.iter().collect()
     }
 
     /// compose set of unique letters in grid
-    pub fn unique_letters(self) -> String {
-        // want the letters sorted so BTree rather than Hash
-        let mut unique_letters: BTreeSet<char> = BTreeSet::new();
-        for l in self.grid_letters {
-            unique_letters.insert(l);
-        }
-        let result = unique_letters.into_iter().collect();
-        println!("Unique returned {}", result);
-        result
+    pub fn unique_letters(&self) -> String {
+        self.grid_letters
+            .iter()
+            .collect::<BTreeSet<_>>()
+            .into_iter()
+            .collect()
     }
 }

@@ -4,6 +4,8 @@ mod puzzle_tests {
     #[test]
     fn grid_stores_letters() {
         let grid = Grid::new("ABCDEFGHI").expect("Invalid letter selection");
+        assert!(grid.letters() == "ABCDEFGHI");
+        // check we don't kill the grid!
         assert!(grid.letters() == "ABCDEFGHI")
     }
 
@@ -28,6 +30,7 @@ mod puzzle_tests {
     #[test]
     fn retrieve_unique_letters_from_grid() {
         let good_grid = Grid::new("VALIDGRID").expect("Invalid letter selection");
+        assert!(good_grid.unique_letters() == "ADGILRV");
         assert!(good_grid.unique_letters() == "ADGILRV");
     }
 
