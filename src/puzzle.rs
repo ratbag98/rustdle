@@ -21,16 +21,16 @@ fn valid_letters(letters: &str) -> bool {
 
 #[derive(Debug)]
 /// a grid of letters, stored as Vec.
-pub struct Grid {
+pub struct Puzzle {
     grid_letters: Vec<char>,
 }
 
-impl Grid {
+impl Puzzle {
     /// create a new Grid from a string slice
-    pub fn new(letters: &str) -> Option<Grid> {
+    pub fn new(letters: &str) -> Option<Self> {
         println!("Grid new called with {}", letters);
         if square(letters.len()) && valid_letters(letters) {
-            Some(Grid {
+            Some(Self {
                 grid_letters: letters.chars().collect(),
             })
         } else {
@@ -50,5 +50,12 @@ impl Grid {
             .collect::<BTreeSet<_>>()
             .into_iter()
             .collect()
+    }
+
+    /// calculate length of the sides of the grid
+    pub fn side_length(self) -> u8 {
+        // by this stage, we know that the grid is a square number
+        // so don't obsess about ints, floors, etc., just trust the maths
+        self.grid_letters.len().sqrt().try_into().unwrap()
     }
 }

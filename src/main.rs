@@ -2,7 +2,7 @@
 
 use clap::Parser;
 use rustdle::cli::RustdleArgs;
-use rustdle::puzzle::Grid;
+use rustdle::puzzle::Puzzle;
 
 use basic_trie::DatalessTrie;
 use std::fs;
@@ -28,7 +28,7 @@ fn main() {
         _ => "ABCDEFGHI",
     };
 
-    let grid = Grid::new(letters).expect("Invalid letter selection");
+    let grid = Puzzle::new(letters).expect("Invalid letter selection");
     println!(
         "Created a grid with the following letters: {}",
         grid.letters()
