@@ -47,4 +47,21 @@ mod puzzle_tests {
             _ => Err(String::from("shouldn't create grid with invalid letters")),
         }
     }
+
+    #[test]
+    fn reject_too_small_puzzles() -> Result<(), String> {
+        // size 1 is Square, but too small.
+        match Puzzle::new("A") {
+            None => Ok(()),
+            _ => Err(String::from(
+                "shouldn't create grid with less than four letters",
+            )),
+        }
+    }
+
+    #[test]
+    fn printing_puzzle_displays_grid_representation() {
+        let good_grid = Puzzle::new("VALIDGRID").expect("Invalid letter selection");
+        assert_eq!(format!("{}", good_grid), "VAL\nIDG\nRID");
+    }
 }

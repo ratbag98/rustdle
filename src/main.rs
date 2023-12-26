@@ -29,10 +29,7 @@ fn main() {
     };
 
     let grid = Puzzle::new(letters).expect("Invalid letter selection");
-    println!(
-        "Created a grid with the following letters: {}",
-        grid.letters()
-    );
+    println!("Created a grid with the following letters: \n{}", grid);
 
     // TODO this is just a test of the argument parser
     // let search = if let Some(letters) = letter_selection.letters.as_deref() {
