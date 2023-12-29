@@ -28,12 +28,6 @@ mod puzzle_tests {
     }
 
     #[test]
-    fn side_length_functions() {
-        let good_grid = Puzzle::new("VALIDGRID").expect("Invalid letter selection");
-        assert!(good_grid.side_length() == 3);
-    }
-
-    #[test]
     fn retrieve_unique_letters_from_grid() {
         let good_grid = Puzzle::new("VALIDGRID").expect("Invalid letter selection");
         assert!(good_grid.unique_letters() == "ADGILRV");
@@ -60,8 +54,16 @@ mod puzzle_tests {
     }
 
     #[test]
+    fn random_access() {
+        let good_grid = Puzzle::new("VALIDGRID").expect("Invalid letter selection");
+
+        assert_eq!(good_grid.letter_at(1, 1), &'D');
+        assert_eq!(good_grid.letter_at(2, 1), &'I');
+    }
+
+    #[test]
     fn printing_puzzle_displays_grid_representation() {
         let good_grid = Puzzle::new("VALIDGRID").expect("Invalid letter selection");
-        assert_eq!(format!("{}", good_grid), "VAL\nIDG\nRID");
+        assert_eq!(format!("{}", good_grid), "VAL\nIDG\nRID\n");
     }
 }
