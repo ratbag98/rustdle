@@ -1,15 +1,7 @@
 //! A Squaredle puzzle
-use num_integer::{Integer, Roots};
+use num_integer::Roots;
 use regex::Regex;
 use std::fmt;
-
-/// is a grid of letters "square" (l x l)?
-fn square<T: Integer + Roots + Copy>(size: T) -> bool {
-    let root = size.sqrt();
-
-    // sqrt truncates to the nearest integer so this checks for squareness
-    root * root == size
-}
 
 /// at least 4 characters, all letters or underscores?
 fn valid_letters(letters: &str) -> bool {
@@ -17,11 +9,6 @@ fn valid_letters(letters: &str) -> bool {
     let valid = Regex::new(r"^[_A-Z]{4,}$").unwrap();
 
     valid.is_match(letters)
-}
-
-/// big enough, good letters, square puzzle?
-fn ok_to_create(letters: &str) -> bool {
-    valid_letters(letters) && square(letters.len())
 }
 
 #[derive(Debug)]
@@ -41,17 +28,22 @@ pub struct Puzzle {
 
 impl Puzzle {
     /// create a new Grid from a string slice
-    pub fn new(letters: &str) -> Option<Self> {
+    pub fn new(letters: &str) -> Result<Self, &'static str> {
         let side_length = letters.len().sqrt();
-        let bodge_length: isize = isize::try_from(side_length).unwrap();
-        if ok_to_create(letters) {
-            Some(Self {
+
+        // not square
+        if side_length * side_length != letters.len() {
+            return Err("can't make a square grid from that many letters.");
+        }
+
+        if valid_letters(letters) {
+            Ok(Self {
                 letters: letters.chars().collect(),
-                bodge_length,
+                bodge_length: isize::try_from(side_length).unwrap(),
                 side_length,
             })
         } else {
-            None
+            Err("letters must be A-Z or underscore (_).")
         }
     }
 
@@ -66,10 +58,6 @@ impl Puzzle {
         chars.sort();
         chars.dedup();
         chars.iter().collect()
-        // .iter()
-        // .collect::<BTreeSet<_>>()
-        // .into_iter()
-        // .collect()
     }
 
     /// return the letter at a particular row and column
@@ -111,7 +99,6 @@ impl Puzzle {
                 let n_row = i_row + y;
                 let n_col = i_col + x;
                 if self.on_grid(&n_row, &n_col) {
-                    println!("({:?},{:?})", n_row, n_col);
                     neighbours.push(self.index_of(n_row as usize, n_col as usize));
                 }
             }
