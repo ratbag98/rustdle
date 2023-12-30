@@ -28,10 +28,11 @@ fn main() {
         _ => "ABCDEFGHI",
     };
 
-    let grid = Puzzle::new(letters).expect("Invalid letter selection");
-    println!("Created a grid with the following letters: \n{}", grid);
+    let puzzle = Puzzle::new(letters).expect("Invalid letter selection");
+    println!("Created a puzzle with the following letters: \n{}", puzzle);
     println!("Neighbour list:");
-    grid.neighbours_of(3, 3);
+    puzzle.neighbours_of(0, 0);
+    puzzle.neighbours_of(3, 3);
 
     // TODO this is just a test of the argument parser
     // let search = if let Some(letters) = letter_selection.letters.as_deref() {

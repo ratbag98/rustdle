@@ -22,8 +22,6 @@ pub struct Puzzle {
     /// the length of the side of the square when the Puzzle
     /// is shown as a grid
     side_length: usize,
-
-    bodge_length: isize,
 }
 
 impl Puzzle {
@@ -39,7 +37,6 @@ impl Puzzle {
         if valid_letters(letters) {
             Ok(Self {
                 letters: letters.chars().collect(),
-                bodge_length: isize::try_from(side_length).unwrap(),
                 side_length,
             })
         } else {
@@ -78,32 +75,44 @@ impl Puzzle {
     }
 
     /// is a cell inside the grid
-    pub fn on_grid(&self, row: &isize, col: &isize) -> bool {
-        (0..self.bodge_length).contains(row) && (0..self.bodge_length).contains(col)
+    pub fn on_grid(&self, row: usize, col: usize) -> bool {
+        row < self.side_length && col < self.side_length
     }
 
     /// return the linear indexes of the letters surrounding the
     /// provided coordinates
     pub fn neighbours_of(&self, row: usize, col: usize) -> Vec<usize> {
-        let i_row = isize::try_from(row).unwrap();
-        let i_col = isize::try_from(col).unwrap();
-
-        let del: [isize; 3] = [-1, 0, 1];
+        let offsets: [i8; 3] = [-1, 0, 1];
 
         let mut neighbours = vec![];
-        for y in del {
-            for x in del {
+        for y in offsets {
+            for x in offsets {
+                // not a neighbour of myself!
                 if x == 0 && y == 0 {
                     continue;
                 }
-                let n_row = i_row + y;
-                let n_col = i_col + x;
-                if self.on_grid(&n_row, &n_col) {
-                    neighbours.push(self.index_of(n_row as usize, n_col as usize));
+                if let Some(n_row) = self.constrained_add(row, y) {
+                    if let Some(n_col) = self.constrained_add(col, x) {
+                        if self.on_grid(n_row, n_col) {
+                            println!("Adding {}, {} as neighbour", n_row, n_col);
+                            neighbours.push(self.index_of(n_row, n_col));
+                        }
+                    }
                 }
             }
         }
         neighbours
+    }
+
+    /// add an offset (-1, 0 or 1) to an unsigned value and return a value if result is greater
+    /// than zero
+    fn constrained_add(&self, u: usize, offset: i8) -> Option<usize> {
+        match offset {
+            0 => Some(u),
+            1 => Some(u.checked_add(1)?),
+            -1 => Some(u.checked_sub(1)?),
+            _ => None,
+        }
     }
 }
 
