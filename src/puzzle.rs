@@ -3,12 +3,17 @@ use num_integer::Roots;
 use regex::Regex;
 use std::fmt;
 
-/// at least 4 characters, all letters or underscores?
-fn valid_letters(letters: &str) -> bool {
-    // next to impossible for hte new to fail, so I'll unwrap
-    let valid = Regex::new(r"^[_A-Z]{4,}$").unwrap();
+#[derive(Debug, Clone)]
+/// Custom error type for Puzzle problems
+pub struct PuzzleError {
+    /// just a message for now
+    pub message: String,
+}
 
-    valid.is_match(letters)
+impl fmt::Display for PuzzleError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        write!(f, "{}", self.message)
+    }
 }
 
 #[derive(Debug)]
@@ -26,22 +31,33 @@ pub struct Puzzle {
 
 impl Puzzle {
     /// create a new Grid from a string slice
-    pub fn new(letters: &str) -> Result<Self, &'static str> {
+    pub fn new(letters: &str) -> Result<Self, PuzzleError> {
         let side_length = letters.len().sqrt();
 
         // not square
         if side_length * side_length != letters.len() {
-            return Err("can't make a square grid from that many letters.");
+            return Err(PuzzleError {
+                message: "can't make a square grid from that many letters.".to_string(),
+            });
         }
 
-        if valid_letters(letters) {
+        if Puzzle::valid_letters(letters) {
             Ok(Self {
                 letters: letters.chars().collect(),
                 side_length,
             })
         } else {
-            Err("letters must be A-Z or underscore (_).")
+            Err(PuzzleError {
+                message: "letters must be A-Z or underscore (_).".to_string(),
+            })
         }
+    }
+    /// at least 4 characters, all letters or underscores?
+    fn valid_letters(letters: &str) -> bool {
+        // next to impossible for the new to fail, so I'll unwrap
+        let valid = Regex::new(r"^[_A-Z]{4,}$").unwrap();
+
+        valid.is_match(letters)
     }
 
     /// retrieve all the letters from the Grid
@@ -91,10 +107,10 @@ impl Puzzle {
                 if x == 0 && y == 0 {
                     continue;
                 }
+                // TODO bit nesty
                 if let Some(n_row) = self.constrained_add(row, y) {
                     if let Some(n_col) = self.constrained_add(col, x) {
                         if self.on_grid(n_row, n_col) {
-                            println!("Adding {}, {} as neighbour", n_row, n_col);
                             neighbours.push(self.index_of(n_row, n_col));
                         }
                     }

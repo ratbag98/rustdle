@@ -25,3 +25,6 @@ impl fmt::Display for PuzzleType {
         }
     }
 }
+
+/// solve a puzzle
+pub mod solver;
